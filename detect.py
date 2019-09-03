@@ -3,10 +3,9 @@ import os
 import cv2
 OUT_FOLDER="output"
 fourcc = cv2.VideoWriter_fourcc(*'MP4V')
-out = cv2.VideoWriter('{}/output.mp4'.format(OUT_FOLDER), fourcc, 20, (640, 480),0)
+out = cv2.VideoWriter('{}/output.mp4'.format(OUT_FOLDER), fourcc, 2, (640, 480),0)
 camera = cv2.VideoCapture(0)
 print(camera.isOpened())
-
 
 def forFrame(frame_number, output_array, output_count, returned_frame):
     print("Frame Number : ", frame_number)
@@ -28,7 +27,7 @@ custom_objects = detector.CustomObjects(person=True, cell_phone=True)
 detections = detector.detectCustomObjectsFromVideo(custom_objects=custom_objects, camera_input=camera,
                                                    frame_detection_interval=1,
                                                    minimum_percentage_probability=30,
-                                                   return_detected_frame=True, frames_per_second=10,
+                                                   return_detected_frame=True, frames_per_second=20,
                                                    per_frame_function=forFrame,
                                                    display_percentage_probability=False, display_object_name=False,
                                                    save_detected_video=False)
