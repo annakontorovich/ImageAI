@@ -6,7 +6,6 @@ __pycache__/
 # C extensions
 *.cpp
 *.so
-
 # temporary structure
 dist/
 build/
@@ -31,6 +30,8 @@ pytest.*
 .coverage
 .coverage.*
 .cache
+*.h5
+*.avi
 nosetests.xml
 coverage.xml
 *.cover

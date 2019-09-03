@@ -5,6 +5,7 @@ from imageai.Detection.keras_retinanet.utils.image import read_image_bgr, read_i
 from imageai.Detection.keras_retinanet.utils.visualization import draw_box, draw_caption
 from imageai.Detection.keras_retinanet.utils.colors import label_color
 import matplotlib.pyplot as plt
+import itertools
 import matplotlib.image as pltimage
 import numpy as np
 import tensorflow as tf
@@ -267,7 +268,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
 
             - If extract_detected_objects = False or at its default value and output_type = 'array' ,
               Then the function will return:
@@ -277,7 +278,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
 
             - If extract_detected_objects = True and output_type = 'file' or
                 at its default value, you must parse in the 'output_image_path' as a string to the path you want
@@ -286,7 +287,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
                 2. an array of string paths to the image of each object extracted from the image
 
             - If extract_detected_objects = True and output_type = 'array', the the function will return:
@@ -295,7 +296,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
                 3. an array of numpy arrays of each object detected in the image
 
 
@@ -360,7 +361,7 @@ class ObjectDetection:
                         color = label_color(label)
 
                         detection_details = detections[0, index, :4].astype(int)
-                        draw_box(detected_copy, detection_details, color=color)
+                        # draw_box(detected_copy, detection_details, color=color)
 
                         if (display_object_name == True and display_percentage_probability == True):
                             caption = "{} {:.3f}".format(self.numbers_to_names[label], (score * 100))
@@ -375,7 +376,7 @@ class ObjectDetection:
                         each_object_details = {}
                         each_object_details["name"] = self.numbers_to_names[label]
                         each_object_details["percentage_probability"] = score * 100
-                        each_object_details["box_points"] = detection_details.tolist()
+                        each_object_details["box_points"] = detection_details
 
                         output_objects_array.append(each_object_details)
 
@@ -475,8 +476,8 @@ class ObjectDetection:
                         except:
                             color = (255, 0, 0)
 
-                        detection_details = [left, top, right, bottom]
-                        draw_box(detected_copy, detection_details, color=color)
+                        detection_details = (left, top, right, bottom)
+                        # draw_box(detected_copy, detection_details, color=color)
 
                         if (display_object_name == True and display_percentage_probability == True):
                             draw_caption(detected_copy, detection_details, label)
@@ -620,7 +621,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
 
             - If extract_detected_objects = False or at its default value and output_type = 'array' ,
               Then the function will return:
@@ -630,7 +631,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
 
             - If extract_detected_objects = True and output_type = 'file' or
                 at its default value, you must parse in the 'output_image_path' as a string to the path you want
@@ -639,7 +640,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
                 2. an array of string paths to the image of each object extracted from the image
 
             - If extract_detected_objects = True and output_type = 'array', the the function will return:
@@ -648,7 +649,7 @@ class ObjectDetection:
                     detected in the image. Each dictionary contains the following property:
                     * name (string)
                     * percentage_probability (float)
-                    * box_points (list of x1,y1,x2 and y2 coordinates)
+                    * box_points (tuple of x1,y1,x2 and y2 coordinates)
                 3. an array of numpy arrays of each object detected in the image
 
 
@@ -718,7 +719,7 @@ class ObjectDetection:
                         color = label_color(label)
 
                         detection_details = detections[0, index, :4].astype(int)
-                        draw_box(detected_copy, detection_details, color=color)
+                        # draw_box(detected_copy, detection_details, color=color)
 
                         if (display_object_name == True and display_percentage_probability == True):
                             caption = "{} {:.3f}".format(self.numbers_to_names[label], (score * 100))
@@ -733,7 +734,7 @@ class ObjectDetection:
                         each_object_details = {}
                         each_object_details["name"] = self.numbers_to_names[label]
                         each_object_details["percentage_probability"] = score * 100
-                        each_object_details["box_points"] = detection_details.tolist()
+                        each_object_details["box_points"] = detection_details
 
                         output_objects_array.append(each_object_details)
 
@@ -836,8 +837,8 @@ class ObjectDetection:
                         except:
                             color = (255, 0, 0)
 
-                        detection_details = [left, top, right, bottom]
-                        draw_box(detected_copy, detection_details, color=color)
+                        detection_details = (left, top, right, bottom)
+                        # draw_box(detected_copy, detection_details, color=color)
 
                         if (display_object_name == True and display_percentage_probability == True):
                             draw_caption(detected_copy, detection_details, label)
@@ -1269,7 +1270,7 @@ class VideoObjectDetection:
                                 color = label_color(label)
 
                                 detection_details = detections[0, index, :4].astype(int)
-                                draw_box(detected_copy, detection_details, color=color)
+                                # draw_box(detected_copy, detection_details, color=color)
 
                                 if (display_object_name == True and display_percentage_probability == True):
                                     caption = "{} {:.3f}".format(self.numbers_to_names[label], (score * 100))
@@ -1284,7 +1285,7 @@ class VideoObjectDetection:
                                 each_object_details = {}
                                 each_object_details["name"] = self.numbers_to_names[label]
                                 each_object_details["percentage_probability"] = score * 100
-                                each_object_details["box_points"] = detection_details.tolist()
+                                each_object_details["box_points"] = detection_details
                                 output_objects_array.append(each_object_details)
 
                             output_frames_dict[counting] = output_objects_array
@@ -1304,13 +1305,12 @@ class VideoObjectDetection:
                             if (save_detected_video == True):
                                 output_video.write(detected_copy)
 
-                            if (counting == 1 or check_frame_interval == 0):
-                                if (per_frame_function != None):
-                                    if (return_detected_frame == True):
-                                        per_frame_function(counting, output_objects_array, output_objects_count,
-                                                           detected_copy)
-                                    elif (return_detected_frame == False):
-                                        per_frame_function(counting, output_objects_array, output_objects_count)
+                            if (per_frame_function != None):
+                                if (return_detected_frame == True):
+                                    per_frame_function(counting, output_objects_array, output_objects_count,
+                                                       detected_copy)
+                                elif (return_detected_frame == False):
+                                    per_frame_function(counting, output_objects_array, output_objects_count)
 
                             if (per_second_function != None):
                                 if (counting != 1 and (counting % frames_per_second) == 0):
@@ -1514,8 +1514,8 @@ class VideoObjectDetection:
                                 except:
                                     color = (255, 0, 0)
 
-                                detection_details = [left, top, right, bottom]
-                                draw_box(detected_copy, detection_details, color=color)
+                                detection_details = (left, top, right, bottom)
+                                # draw_box(detected_copy, detection_details, color=color)
 
                                 if (display_object_name == True and display_percentage_probability == True):
                                     draw_caption(detected_copy, detection_details, label)
@@ -1546,14 +1546,13 @@ class VideoObjectDetection:
                             if (save_detected_video == True):
                                 output_video.write(detected_copy)
 
-                            if (counting == 1 or check_frame_interval == 0):
+                            if (per_frame_function != None):
                                 if (per_frame_function != None):
-                                    if (per_frame_function != None):
-                                        if (return_detected_frame == True):
-                                            per_frame_function(counting, output_objects_array, output_objects_count,
-                                                               detected_copy)
-                                        elif (return_detected_frame == False):
-                                            per_frame_function(counting, output_objects_array, output_objects_count)
+                                    if (return_detected_frame == True):
+                                        per_frame_function(counting, output_objects_array, output_objects_count,
+                                                           detected_copy)
+                                    elif (return_detected_frame == False):
+                                        per_frame_function(counting, output_objects_array, output_objects_count)
 
                             if (per_second_function != None):
                                 if (counting != 1 and (counting % frames_per_second) == 0):
@@ -1881,6 +1880,8 @@ class VideoObjectDetection:
                     video_frames_count = 0
 
                     while (input_video.isOpened()):
+                        if cv2.waitKey(1) & 0xFF == ord('q'):
+                            break
                         ret, frame = input_video.read()
 
                         if (ret == True):
@@ -1919,12 +1920,12 @@ class VideoObjectDetection:
                                 detections[0, :, :4] /= scale
 
                             min_probability = minimum_percentage_probability / 100
-
                             for index, (label, score), in enumerate(zip(predicted_numbers, scores)):
                                 if score < min_probability:
                                     continue
 
                                 if (custom_objects != None):
+
                                     check_name = self.numbers_to_names[label]
                                     if (custom_objects[check_name] == "invalid"):
                                         continue
@@ -1932,7 +1933,7 @@ class VideoObjectDetection:
                                 color = label_color(label)
 
                                 detection_details = detections[0, index, :4].astype(int)
-                                draw_box(detected_copy, detection_details, color=color)
+                                # draw_box(detected_copy, detection_details, color=color)
 
                                 if (display_object_name == True and display_percentage_probability == True):
                                     caption = "{} {:.3f}".format(self.numbers_to_names[label], (score * 100))
@@ -1947,7 +1948,7 @@ class VideoObjectDetection:
                                 each_object_details = {}
                                 each_object_details["name"] = self.numbers_to_names[label]
                                 each_object_details["percentage_probability"] = score * 100
-                                each_object_details["box_points"] = detection_details.tolist()
+                                each_object_details["box_points"] = detection_details
                                 output_objects_array.append(each_object_details)
 
                             output_frames_dict[counting] = output_objects_array
@@ -1967,13 +1968,12 @@ class VideoObjectDetection:
                             if (save_detected_video == True):
                                 output_video.write(detected_copy)
 
-                            if (counting == 1 or check_frame_interval == 0):
-                                if (per_frame_function != None):
-                                    if (return_detected_frame == True):
-                                        per_frame_function(counting, output_objects_array, output_objects_count,
-                                                           detected_copy)
-                                    elif (return_detected_frame == False):
-                                        per_frame_function(counting, output_objects_array, output_objects_count)
+                            if (per_frame_function != None):
+                                if (return_detected_frame == True):
+                                    per_frame_function(counting, output_objects_array, output_objects_count,
+                                                       detected_copy)
+                                elif (return_detected_frame == False):
+                                    per_frame_function(counting, output_objects_array, output_objects_count)
 
                             if (per_second_function != None):
                                 if (counting != 1 and (counting % frames_per_second) == 0):
@@ -2152,9 +2152,12 @@ class VideoObjectDetection:
                                         self.__yolo_input_image_shape: [frame.size[1], frame.size[0]],
                                         K.learning_phase(): 0
                                     })
-
+                            to_draw = []
                             min_probability = minimum_percentage_probability / 100
-
+                            has_person = False
+                            has_cell = False
+                            persons = []
+                            cells = []
                             for a, b in reversed(list(enumerate(out_classes))):
                                 predicted_class = self.numbers_to_names[b]
                                 box = out_boxes[a]
@@ -2179,9 +2182,20 @@ class VideoObjectDetection:
                                     color = label_color(b)
                                 except:
                                     color = (255, 0, 0)
+                                inner = any(left > left2 and top < top2 and right < right2 and bottom > bottom2 for
+                                            (left2, top2, right2, bottom2) in persons)
+                                if predicted_class == "person":
+                                    if not inner:
+                                        persons.append((left, top, right, bottom))
+                                    has_person = True
+                                if predicted_class == "cell phone":
+                                    cells.append((left, top, right, bottom))
+                                    has_cell = True
+                                if has_cell or has_person:
+                                    to_draw.append((left, top, right, bottom))
+                                detection_details = (left, top, right, bottom)
 
-                                detection_details = [left, top, right, bottom]
-                                draw_box(detected_copy, detection_details, color=color)
+                                # draw_box(detected_copy, detection_details, color=color)
 
                                 if (display_object_name == True and display_percentage_probability == True):
                                     draw_caption(detected_copy, detection_details, label)
@@ -2195,7 +2209,16 @@ class VideoObjectDetection:
                                 each_object_details["percentage_probability"] = score * 100
                                 each_object_details["box_points"] = detection_details
                                 output_objects_array.append(each_object_details)
-
+                            # (left, top, right, bottom)
+                            for element in itertools.product(cells, persons):
+                                if (element[0][0] > element[1][2] or element[0][2] < element[1][0]):
+                                    continue
+                                # if (element[0][3] > element[1][1] or element[0][1] < element[1][3]):
+                                #     continue
+                                    # if has_cell and has_person:
+                                    #     for details in to_draw:
+                                draw_box(detected_copy, element[0], color=color)
+                                draw_box(detected_copy, element[1], color=color)
                             output_frames_dict[counting] = output_objects_array
 
                             output_objects_count = {}
@@ -2213,13 +2236,12 @@ class VideoObjectDetection:
                             if (save_detected_video == True):
                                 output_video.write(detected_copy)
 
-                            if (counting == 1 or check_frame_interval == 0):
-                                if (per_frame_function != None):
-                                    if (return_detected_frame == True):
-                                        per_frame_function(counting, output_objects_array, output_objects_count,
-                                                           detected_copy)
-                                    elif (return_detected_frame == False):
-                                        per_frame_function(counting, output_objects_array, output_objects_count)
+                            if (per_frame_function != None):
+                                if (return_detected_frame == True):
+                                    per_frame_function(counting, output_objects_array, output_objects_count,
+                                                       detected_copy)
+                                elif (return_detected_frame == False):
+                                    per_frame_function(counting, output_objects_array, output_objects_count)
 
                             if (per_second_function != None):
                                 if (counting != 1 and (counting % frames_per_second) == 0):
@@ -2326,15 +2348,9 @@ class VideoObjectDetection:
                     if (save_detected_video == True):
                         return output_video_filepath
 
-
+            except KeyboardInterrupt:
+                return
             except:
                 raise ValueError(
                     "An error occured. It may be that your input video is invalid. Ensure you specified a proper string value for 'output_file_path' is 'save_detected_video' is not False. "
                     "Also ensure your per_frame, per_second, per_minute or video_complete_analysis function is properly configured to receive the right parameters. ")
-
-
-
-
-
-
-
